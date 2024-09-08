@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:face_roll_student/core/utils/background_widget.dart';
 import 'package:face_roll_student/core/utils/customButton.dart';
+import 'package:face_roll_student/features/registraion/presentation/riverpod/registraion_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
@@ -70,6 +71,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     final detectState = ref.watch(faceDetectionProvider('family'));
     final trainController = ref.watch(trainFaceProvider('family').notifier);
     final recognizeState = ref.watch(recognizefaceProvider('family'));
+    final registerController = ref.watch(registrationProvider.notifier);
+
 
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
@@ -158,6 +161,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         SizedBox(height: screenHeight * 0.06),
                         buildButtonRow(
                           context,
+                          registerController,
                           detectController,
                           trainController,
                           screenHeight,
@@ -285,6 +289,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   Widget buildButtonRow(
       BuildContext context,
+      RegistrationNotifier registerController,
       FaceDetectionNotifier detectController,
       TrainFaceNotifier trainController,
       double screenHeight
@@ -308,6 +313,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               captureAndTrainImage(
                   formKey: _formKey,
                   context: context,
+                  registerController: registerController,
                   detectController: detectController,
                   trainController: trainController,
                   personName: name,
@@ -337,6 +343,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
               trainFromGallery(
                   formKey: _formKey,
+                  registerController: registerController,
                   detectController: detectController,
                   trainController: trainController,
                   personName: name.trim(),
@@ -358,6 +365,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   Future<void> trainFromGallery(
       {formKey,
+        registerController,
         detectController,
         trainController,
         personName,
@@ -372,16 +380,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           .then((imgList) async {
         final stopwatch = Stopwatch()..start();
 
-        await trainController.pickImagesAndTrain(
+       List<dynamic> embedding =  await trainController.pickImagesAndTrain(
             personName,rollNumber, session, semester, widget.interpreter, imgList, fileName);
 
-        // personName = '';
-        // setState(() {
-        //   personName = '';
-        //   rollNumber = '';
-        //   session = null;
-        //   semester = null;
-        // });
+       registerController.createStudent( embedding, imgList[0], personName,
+            rollNumber,  session, semester);
+
+
+
 
         stopwatch.stop();
         final double elapsedSeconds = stopwatch.elapsedMilliseconds / 1000.0;
@@ -398,6 +404,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   Future<void> captureAndTrainImage(
       {formKey,
         context,
+        registerController,
         detectController,
         trainController,
         personName,
@@ -422,8 +429,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           .then((imgList) async {
         final stopwatch = Stopwatch()..start();
 
-        await trainController.pickImagesAndTrain(
-            personName, rollNumber, session, semester, widget.interpreter, imgList, fileName);
+        // await trainController.pickImagesAndTrain(
+        //     personName, rollNumber, session, semester, widget.interpreter, imgList, fileName);
+
+        List<dynamic> embedding =  await trainController.pickImagesAndTrain(
+            personName,rollNumber, session, semester, widget.interpreter, imgList, fileName);
+
+        registerController.createStudent( embedding, imgList[0], personName,
+            rollNumber,  session, semester);
 
         // setState(() {
         //   personName = '';

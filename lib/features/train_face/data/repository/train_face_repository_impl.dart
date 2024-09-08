@@ -1,5 +1,5 @@
-// import 'package:face/features/train_face/data/data_source/train_face_data_source.dart';
-// import 'package:face/features/train_face/data/data_source/train_face_data_source_impl.dart';
+// import 'package:face/features/train_face/data/data_source/registration_data_source.dart';
+// import 'package:face/features/train_face/data/data_source/registration_data_source_impl.dart';
 // import 'package:face/features/train_face/domain/train_face_repository.dart';
 
 import 'dart:convert';
@@ -26,7 +26,9 @@ class TrainFaceRepositoryImpl implements TrainFaceRepository {
   TrainFaceDataSource dataSource;
 
   @override
-  Future<Map<String, dynamic>> getOutputList(String name, String rollNumber, String session, String semester, List trainings,
+  // Future<Map<String, dynamic>> getOutputList(String name, String rollNumber, String session, String semester, List trainings,
+  //     Interpreter interpreter, String nameOfJsonFile) async {
+  Future<List<dynamic>> getOutputList(String name, String rollNumber, String session, String semester, List trainings,
       Interpreter interpreter, String nameOfJsonFile) async {
     final inputShape = interpreter.getInputTensor(0).shape;
     final outputShape = interpreter.getOutputTensor(0).shape;
@@ -72,8 +74,9 @@ class TrainFaceRepositoryImpl implements TrainFaceRepository {
         finalOutputList.add(e);
         print('The output to be saved in the database is${finalOutputList}');
       }
-     return await dataSource.createStudent(finalOutputList, trainings[0], name,  rollNumber,  session,  semester,);// sending the first image of the list
-      //
+      return finalOutputList;
+     // return await dataSource.createStudent(finalOutputList, trainings[0], name,  rollNumber,  session,  semester,);// sending the first image of the list
+
       // await dataSource.saveOrUpdateJsonInSharedPreferences(
       //     name, finalOutputList, nameOfJsonFile);
     } catch (e) {
@@ -94,17 +97,17 @@ class TrainFaceRepositoryImpl implements TrainFaceRepository {
 
 
 
-  Future<void> getStudentByRollNumber(int rollNumber) async {
-    final url = Uri.parse('http://192.168.0.106:8000/api/Students/$rollNumber/');
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final studentData = json.decode(response.body);
-      print('Student Data: $studentData');
-    } else {
-      print('Failed to fetch student: ${response.body}');
-    }
-  }
+  // Future<void> getStudentByRollNumber(int rollNumber) async {
+  //   final url = Uri.parse('http://192.168.0.106:8000/api/Students/$rollNumber/');
+  //   final response = await http.get(url);
+  //
+  //   if (response.statusCode == 200) {
+  //     final studentData = json.decode(response.body);
+  //     print('Student Data: $studentData');
+  //   } else {
+  //     print('Failed to fetch student: ${response.body}');
+  //   }
+  // }
 
 
 }

@@ -28,7 +28,8 @@ class TrainFaceNotifier extends StateNotifier<BaseState> {
     required this.useCase,
   }) : super(const InitialState());
 
-  Future<void> pickImagesAndTrain(
+
+  Future<List<dynamic>> pickImagesAndTrain(
       String name,
       String rollNumber,
       String session,
@@ -48,9 +49,12 @@ class TrainFaceNotifier extends StateNotifier<BaseState> {
           msg: 'No Face Detected. Try again!', // Show the first error message
           toastLength: Toast.LENGTH_LONG,
         );
+
+        // Return an empty list if no images are detected
+        return [];
       } else {
-        // Process the images
-        Map<String, dynamic> responseMap = await useCase.getImagesList(
+        // Process and get face embeddings
+        List<dynamic> faceEmbeddings = await useCase.getImagesList(
           name,
           rollNumber,
           session,
@@ -60,67 +64,58 @@ class TrainFaceNotifier extends StateNotifier<BaseState> {
           nameOfJsonFile,
         );
 
-        print(responseMap);
-
-        if (responseMap.containsKey('roll_number') && responseMap['roll_number'] is List) {
-          // This is likely an error response
-          Fluttertoast.showToast(
-            msg: responseMap['roll_number'][0], // Show the first error message
-            toastLength: Toast.LENGTH_LONG,
-          );
-        } else {
-          // This is likely a success response
-          Fluttertoast.showToast(
-            msg: '${responseMap['name']} has been added successfully!',
-            toastLength: Toast.LENGTH_LONG,
-          );
-        }
+        // Return the faceEmbeddings list
+        return faceEmbeddings;
       }
     } catch (e) {
+      // Handle any errors that occur
+      print('An error occurred: $e');
+      state = ErrorState(e.toString());
+
+      // Rethrow the error for further handling
       rethrow;
     }
   }
+
+  // Future<List<dynamic>> pickImagesAndTrain(
+  //     String name,
+  //     String rollNumber,
+  //     String session,
+  //     String semester,
+  //     Interpreter interpreter,
+  //     List resizedImageList,
+  //     String nameOfJsonFile,
+  //     ) async {
+  //   try {
+  //     state = const LoadingState();
+  //
+  //     // Check if images are selected
+  //     if (resizedImageList.isEmpty) {
+  //       print('An error occurred from trainProvider');
+  //       state = const ErrorState('No Face Detected');
+  //       Fluttertoast.showToast(
+  //         msg: 'No Face Detected. Try again!', // Show the first error message
+  //         toastLength: Toast.LENGTH_LONG,
+  //       );
+  //     } else {
+  //
+  //
+  //       List<dynamic> faceEmbeddings = await useCase.getImagesList(
+  //         name,
+  //         rollNumber,
+  //         session,
+  //         semester,
+  //         resizedImageList,
+  //         interpreter,
+  //         nameOfJsonFile,
+  //       );
+  //
+  //       return faceEmbeddings;
+  //     }
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 }
 
 
-// class TrainFaceNotifier extends StateNotifier<BaseState> {
-//   Ref ref;
-//   TrainFaceUseCase useCase;
-//
-//   TrainFaceNotifier({required this.ref, required this.useCase})
-//       : super(const InitialState());
-//
-//   Future<void> pickImagesAndTrain(String name, String rollNumber, String session, String semester,
-//       Interpreter interpreter,
-//       List resizedImageList, String nameOfJsonFile) async {
-//     try {
-//       state = const LoadingState();
-//       // Selecting single or multiple images for training
-//       if (resizedImageList.isEmpty) {
-//         print('An error ocured from trainProvider');
-//         state = const ErrorState('No Face Detected');
-//       } else {
-//      Map<String,dynamic> responseMap =  await useCase.getImagesList(
-//             name,rollNumber, session, semester, resizedImageList, interpreter, nameOfJsonFile);
-//         // state = SuccessState(name: name);
-//         print(responseMap);
-//          if (responseMap.containsKey('roll_number') && responseMap['roll_number'] is List) {
-//            // This is likely an error response
-//            Fluttertoast.showToast(
-//              msg: responseMap['roll_number'][0],  // Show the first error message
-//              toastLength: Toast.LENGTH_SHORT,
-//            );
-//          } else {
-//            // This is likely a success response
-//            Fluttertoast.showToast(
-//              msg: '${responseMap['name']} has been added successfully!',
-//              toastLength: Toast.LENGTH_SHORT,
-//            );
-//          }
-//       }
-//       // await useCase.getImagesList(name, resizedImageList, interpreter, nameOfJsonFile);
-//     } catch (e) {
-//       rethrow;
-//     }
-//   }
-// }

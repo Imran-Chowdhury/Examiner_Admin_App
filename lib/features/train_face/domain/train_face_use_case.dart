@@ -13,10 +13,21 @@ class TrainFaceUseCase {
   TrainFaceUseCase({required this.repository});
   TrainFaceRepository repository;
 
-  Future<Map<String,dynamic>> getImagesList(String name, String rollNumber, String session, String semester, List trainings,
+  // Future<Map<String,dynamic>> getImagesList(String name, String rollNumber, String session, String semester, List trainings,
+  //     Interpreter interpreter, String nameOfJsonFile) async {
+  //   try {
+  //   return  await repository.getOutputList(
+  //         name, rollNumber,  session, semester,trainings, interpreter, nameOfJsonFile);
+  //     // await repository.getOutputList2(name, trainings, interpreter, nameOfJsonFile);
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
+
+  Future<List<dynamic>> getImagesList(String name, String rollNumber, String session, String semester, List trainings,
       Interpreter interpreter, String nameOfJsonFile) async {
     try {
-    return  await repository.getOutputList(
+      return  await repository.getOutputList(
           name, rollNumber,  session, semester,trainings, interpreter, nameOfJsonFile);
       // await repository.getOutputList2(name, trainings, interpreter, nameOfJsonFile);
     } catch (e) {

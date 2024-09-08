@@ -3,6 +3,7 @@ import 'package:face_roll_student/core/constants/constants.dart';
 import 'package:face_roll_student/features/profile/presentaion/views/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'features/registraion/presentation/views/registration_screen.dart';
 import 'features/train_face/presentation/views/home_screen.dart';
 
 
