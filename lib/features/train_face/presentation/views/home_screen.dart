@@ -21,7 +21,9 @@ import '../../../../core/utils/validators/validators.dart';
 import '../../../face_detection/presentation/riverpod/face_detection_provider.dart';
 import '../../../live_feed/presentation/views/live_feed_burst_shots.dart';
 import '../../../live_feed/presentation/views/live_feed_training_screen.dart';
+import '../../../profile/presentaion/views/profile_screen.dart';
 import '../../../recognize_face/presentation/riverpod/recognize_face_provider.dart';
+import '../../../search/presentaion/views/search_screen.dart';
 import '../riverpod/train_face_provider.dart';
 
 // 1. extend [ConsumerStatefulWidget]
@@ -169,7 +171,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         backgroundColor: const Color(0xFF3a3b45),
         body: Stack(
           children: [
-            const BackgroudContainer(),
+            const BackgroundContainer(),
             SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -189,6 +191,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                   ),
+
 
                   const SizedBox(
                     height: 10.0,
@@ -323,9 +326,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               },
                             ),
                             CustomButton(
-                              buttonName: 'Print',
+                              buttonName: 'Register',
                               icon: const Icon(
-                                Icons.print,
+                                Icons.app_registration,
                                 color: Colors.white,
                               ),
                               onPressed: () {
@@ -334,6 +337,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     RegistrationScreen(faceDetector: faceDetector,
                                       interpreter: interpreter,cameras: cameras,)
                                 ));
+                              },
+                            ),
+
+                            CustomButton(
+                              buttonName: 'Search',
+                              icon: const Icon(
+                                Icons.search,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                // getKeysFromTestMap(fileName);
+                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                //     ProfileScreen(faceDetector: faceDetector,
+                                //       interpreter: interpreter,cameras: cameras,
+                                //       originalName: 'Imran',
+                                //       originalRollNumber: 19702036.toString(),
+                                //       originalSemester: 8.toString(),
+                                //       originalSession: '2018-19',
+                                //
+                                //     )
+                                // ));
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const SearchStudent()));
                               },
                             ),
                           ],

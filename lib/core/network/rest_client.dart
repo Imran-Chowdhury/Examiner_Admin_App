@@ -9,7 +9,7 @@ final restClientProvider = Provider((ref) => RestClient());
 
 class RestClient{
   Future<Map<String,dynamic>> createStudent(Map<String, dynamic> studentData) async {
-    const url = Urls.createStudents;
+    const url = Urls.baseUrl;
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -25,6 +25,29 @@ class RestClient{
       return responseBody;
     } else {
       print('Failed to create student: ${response.body}');
+      final Map<String, dynamic> errorBody = jsonDecode(response.body);
+      return errorBody;
+    }
+  }
+
+
+  Future<Map<String,dynamic>> getAStudent(String rollNumber) async {
+    String url = '${Urls.baseUrl}$rollNumber/';
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        // Add token if required
+      },
+      // body: jsonEncode(studentData),
+    );
+
+    if (response.statusCode == 200) {
+      print('Student Found!');
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return responseBody;
+    } else {
+      print('Failed to get student: ${response.body}');
       final Map<String, dynamic> errorBody = jsonDecode(response.body);
       return errorBody;
     }

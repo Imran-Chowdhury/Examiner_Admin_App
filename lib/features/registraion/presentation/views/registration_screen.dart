@@ -11,6 +11,11 @@ import '../../../live_feed/presentation/views/live_feed_training_screen.dart';
 import '../../../recognize_face/presentation/riverpod/recognize_face_provider.dart';
 import '../../../train_face/presentation/riverpod/train_face_provider.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
+
+
+
+
+
 class RegistrationScreen extends ConsumerStatefulWidget {
   RegistrationScreen({required this.faceDetector, required this.interpreter, required this.cameras});
 
@@ -95,7 +100,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       ),
       body: Stack(
         children: [
-          const BackgroudContainer(),
+          const BackgroundContainer(),
           SingleChildScrollView(
             child: Column(
               children: [
