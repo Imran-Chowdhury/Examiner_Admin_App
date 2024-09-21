@@ -2,6 +2,7 @@
 
 
 
+import 'package:dartz/dartz.dart';
 import 'package:face_roll_student/features/search/data/data_source/search_data_source.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +19,11 @@ class SearchDataSourceImpl implements SearchDataSource{
   @override
   Future<Map<String, dynamic>> getAStudent(String rollNumber)async {
    return await restClient.getAStudent(rollNumber);
+  }
+
+  @override
+  Future<Either<Map<String, dynamic>, List>> getStudentBySemester(String semester)async {
+    return await restClient.getStudentBySemester(semester);
   }
 
 }

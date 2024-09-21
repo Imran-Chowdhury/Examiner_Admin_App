@@ -2,6 +2,7 @@
 
 
 
+import 'package:dartz/dartz.dart';
 import 'package:face_roll_student/core/network/rest_client.dart';
 import 'package:face_roll_student/features/search/data/data_source/search_data_source.dart';
 import 'package:face_roll_student/features/search/data/data_source/search_data_source_impl.dart';
@@ -20,5 +21,12 @@ class SearchRepositoryImpl implements SearchRepository{
   @override
   Future<Map<String, dynamic>> getAStudent(String rollNumber)async {
     return await dataSource.getAStudent(rollNumber);
+  }
+
+  @override
+  Future<Either<Map<String, dynamic>, List>> getStudentBySemester(String semester) async{
+
+
+    return await dataSource.getStudentBySemester(semester);
   }
 }

@@ -24,12 +24,10 @@ class TrainFaceUseCase {
   //   }
   // }
 
-  Future<List<dynamic>> getImagesList(String name, String rollNumber, String session, String semester, List trainings,
-      Interpreter interpreter, String nameOfJsonFile) async {
+  Future<List<dynamic>> getImagesList( List trainings, Interpreter interpreter,) async {
     try {
-      return  await repository.getOutputList(
-          name, rollNumber,  session, semester,trainings, interpreter, nameOfJsonFile);
-      // await repository.getOutputList2(name, trainings, interpreter, nameOfJsonFile);
+      return  await repository.getOutputList(trainings, interpreter,);
+
     } catch (e) {
       rethrow;
     }

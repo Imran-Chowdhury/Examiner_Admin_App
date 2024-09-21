@@ -68,8 +68,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     final detectController = ref.watch(faceDetectionProvider('family').notifier);
-    final detectState = ref.watch(faceDetectionProvider('family'));
     final trainController = ref.watch(trainFaceProvider('family').notifier);
+    final detectState = ref.watch(faceDetectionProvider('family'));
+
     final recognizeState = ref.watch(recognizefaceProvider('family'));
     final registerController = ref.watch(registrationProvider.notifier);
 
@@ -381,10 +382,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         final stopwatch = Stopwatch()..start();
 
        List<dynamic> embedding =  await trainController.pickImagesAndTrain(
-            personName,rollNumber, session, semester, widget.interpreter, imgList, fileName);
+             widget.interpreter, imgList);
 
        registerController.createStudent( embedding, imgList[0], personName,
-            rollNumber,  session, semester);
+            rollNumber,  session, semester,context);
 
 
 
@@ -429,23 +430,18 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           .then((imgList) async {
         final stopwatch = Stopwatch()..start();
 
-        // await trainController.pickImagesAndTrain(
-        //     personName, rollNumber, session, semester, widget.interpreter, imgList, fileName);
 
-        List<dynamic> embedding =  await trainController.pickImagesAndTrain(
-            personName,rollNumber, session, semester, widget.interpreter, imgList, fileName);
+        //
+        // List<dynamic> embedding =  await trainController.pickImagesAndTrain(
+        //     personName,rollNumber, session, semester, widget.interpreter, imgList, fileName);
+
+
+        List<dynamic> embedding =  await trainController.pickImagesAndTrain(widget.interpreter, imgList,);
+
 
         registerController.createStudent( embedding, imgList[0], personName,
-            rollNumber,  session, semester);
+            rollNumber,  session, semester,context);
 
-        // setState(() {
-        //   personName = '';
-        //   rollNumber = '';
-        //   session = null;
-        //   semester = null;
-        // });
-
-        // personName = '';
 
         stopwatch.stop();
         final double elapsedSeconds = stopwatch.elapsedMilliseconds / 1000.0;

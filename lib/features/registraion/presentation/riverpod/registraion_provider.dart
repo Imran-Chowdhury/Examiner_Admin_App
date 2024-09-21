@@ -1,6 +1,7 @@
 
 
 import 'package:face_roll_student/features/registraion/domain/registration_use_case.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image/image.dart' as img;
@@ -21,7 +22,7 @@ class RegistrationNotifier extends StateNotifier<bool> {
 
 
   Future<void> createStudent(List<dynamic> embedding, img.Image image, String studentName,
-      String rollNumber, String session, String semesterId) async{
+      String rollNumber, String session, String semesterId, BuildContext context) async{
     // state = const SearchStudentLoadingState();
     if(embedding.isEmpty){
       Fluttertoast.showToast(
@@ -44,6 +45,7 @@ class RegistrationNotifier extends StateNotifier<bool> {
         msg: '${responseMap['name']} has been added successfully!',
         toastLength: Toast.LENGTH_LONG,
       );
+      Navigator.pop(context);
     }
 
 

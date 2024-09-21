@@ -19,6 +19,10 @@ class SearchNotifier extends StateNotifier<SearchStudentState> {
 
   SearchUseCase useCase;
 
+  void resetState(){
+    state = const SearchStudentInitialState();
+  }
+
 
   Future<void> getAStudent(String rollNumber) async{
     state = const SearchStudentLoadingState();
@@ -34,8 +38,37 @@ class SearchNotifier extends StateNotifier<SearchStudentState> {
       print(res);
 
     }
+  }
+
+
+  Future<void> getStudentBySemester(String semester) async{
+    state = const SearchStudentLoadingState();
+
+    final res = await useCase.getStudentBySemester(semester);
+    res.fold(
+            (failure){
+              Fluttertoast.showToast(msg: failure['error']);
+              state = SearchStudentErrorState(failure['error']);
+            }, (studentList){
+              if(studentList.isEmpty){
+                state = const SearchStudentErrorState('No student found');
+
+
+              }else{
+                state = SearchStudentSuccessState(
+                  data: studentList,
+                );
+              }
+
+
+            });
+
 
   }
+
+
+
+
 
 }
 

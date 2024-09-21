@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
 import '../../../../core/base_state/base_state.dart';
 import '../../domain/train_face_use_case.dart';
@@ -30,13 +30,9 @@ class TrainFaceNotifier extends StateNotifier<BaseState> {
 
 
   Future<List<dynamic>> pickImagesAndTrain(
-      String name,
-      String rollNumber,
-      String session,
-      String semester,
+
       Interpreter interpreter,
       List resizedImageList,
-      String nameOfJsonFile,
       ) async {
     try {
       state = const LoadingState();
@@ -55,13 +51,10 @@ class TrainFaceNotifier extends StateNotifier<BaseState> {
       } else {
         // Process and get face embeddings
         List<dynamic> faceEmbeddings = await useCase.getImagesList(
-          name,
-          rollNumber,
-          session,
-          semester,
+
+
           resizedImageList,
           interpreter,
-          nameOfJsonFile,
         );
 
         // Return the faceEmbeddings list
@@ -77,45 +70,6 @@ class TrainFaceNotifier extends StateNotifier<BaseState> {
     }
   }
 
-  // Future<List<dynamic>> pickImagesAndTrain(
-  //     String name,
-  //     String rollNumber,
-  //     String session,
-  //     String semester,
-  //     Interpreter interpreter,
-  //     List resizedImageList,
-  //     String nameOfJsonFile,
-  //     ) async {
-  //   try {
-  //     state = const LoadingState();
-  //
-  //     // Check if images are selected
-  //     if (resizedImageList.isEmpty) {
-  //       print('An error occurred from trainProvider');
-  //       state = const ErrorState('No Face Detected');
-  //       Fluttertoast.showToast(
-  //         msg: 'No Face Detected. Try again!', // Show the first error message
-  //         toastLength: Toast.LENGTH_LONG,
-  //       );
-  //     } else {
-  //
-  //
-  //       List<dynamic> faceEmbeddings = await useCase.getImagesList(
-  //         name,
-  //         rollNumber,
-  //         session,
-  //         semester,
-  //         resizedImageList,
-  //         interpreter,
-  //         nameOfJsonFile,
-  //       );
-  //
-  //       return faceEmbeddings;
-  //     }
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
 }
 
 

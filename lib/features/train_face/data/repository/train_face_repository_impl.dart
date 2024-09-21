@@ -26,10 +26,11 @@ class TrainFaceRepositoryImpl implements TrainFaceRepository {
   TrainFaceDataSource dataSource;
 
   @override
-  // Future<Map<String, dynamic>> getOutputList(String name, String rollNumber, String session, String semester, List trainings,
+
+  // Future<List<dynamic>> getOutputList(String name, String rollNumber, String session, String semester, List trainings,
   //     Interpreter interpreter, String nameOfJsonFile) async {
-  Future<List<dynamic>> getOutputList(String name, String rollNumber, String session, String semester, List trainings,
-      Interpreter interpreter, String nameOfJsonFile) async {
+  Future<List<dynamic>> getOutputList(List trainings,
+      Interpreter interpreter,) async {
     final inputShape = interpreter.getInputTensor(0).shape;
     final outputShape = interpreter.getOutputTensor(0).shape;
 
@@ -83,31 +84,6 @@ class TrainFaceRepositoryImpl implements TrainFaceRepository {
       rethrow;
     }
   }
-
-  // Uint8List convertImageToUint8List(img.Image image) {
-  //   // Encode the image to PNG format
-  //   final List<int> pngBytes = img.encodePng(image);
-  //
-  //   // Convert the List<int> to Uint8List
-  //   final Uint8List uint8List = Uint8List.fromList(pngBytes);
-  //   print('The uint8List is $uint8List');
-  //
-  //   return uint8List;
-  // }
-
-
-
-  // Future<void> getStudentByRollNumber(int rollNumber) async {
-  //   final url = Uri.parse('http://192.168.0.106:8000/api/Students/$rollNumber/');
-  //   final response = await http.get(url);
-  //
-  //   if (response.statusCode == 200) {
-  //     final studentData = json.decode(response.body);
-  //     print('Student Data: $studentData');
-  //   } else {
-  //     print('Failed to fetch student: ${response.body}');
-  //   }
-  // }
 
 
 }

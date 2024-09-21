@@ -1,26 +1,26 @@
-abstract class AttendanceState {
-  const AttendanceState();
+abstract class ProfileState {
+  const ProfileState();
 }
 
-class AttendanceInitialState extends AttendanceState {
-  const AttendanceInitialState();
+class ProfileInitialState extends ProfileState {
+  const ProfileInitialState();
 }
 
-class AttendanceLoadingState<T> extends AttendanceState {
-  const AttendanceLoadingState({this.data});
+class ProfileLoadingState<T> extends ProfileState {
+  const ProfileLoadingState({this.data});
 
   final T? data;
 }
 
-class AttendanceSuccessState<T> extends AttendanceState {
-  const AttendanceSuccessState({this.data, this.name});
+class ProfileSuccessState<T> extends ProfileState {
+  const ProfileSuccessState({this.data, this.name});
 
   final T? data;
   final T? name;
 }
 
-class AttendanceErrorState extends AttendanceState {
+class ProfileErrorState extends ProfileState {
   final String errorMessage;
 
-  const AttendanceErrorState(this.errorMessage);
+  const ProfileErrorState(this.errorMessage);
 }

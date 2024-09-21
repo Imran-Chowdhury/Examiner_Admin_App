@@ -359,7 +359,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 //     )
                                 // ));
 
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const SearchStudent()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchStudent(
+                                  faceDetector: faceDetector,
+                                  interpreter: interpreter,
+                                  cameras: cameras,
+                                )));
                               },
                             ),
                           ],
