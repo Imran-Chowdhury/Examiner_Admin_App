@@ -29,7 +29,7 @@ class SearchNotifier extends StateNotifier<SearchStudentState> {
 
     Map<String,dynamic> res = await useCase.getAStudent(rollNumber);
     if (res.containsKey('error')){
-      Fluttertoast.showToast(msg: res['error']);
+      // Fluttertoast.showToast(msg: res['error']);
       state = SearchStudentErrorState(res['error']);
     }else{
       state = SearchStudentSuccessState(

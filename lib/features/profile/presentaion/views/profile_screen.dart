@@ -1,19 +1,25 @@
 import 'dart:typed_data';
-
+// import 'package:image/image.dart' as img;
 import 'package:camera/camera.dart';
 import 'package:face_roll_student/core/utils/background_widget.dart';
+import 'package:face_roll_student/core/utils/customButton.dart';
+import 'package:face_roll_student/core/utils/customTextFormField.dart';
+import 'package:face_roll_student/core/utils/validators/validators.dart';
 import 'package:face_roll_student/features/profile/presentaion/riverpod/profile_screen_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 
 import '../../../../core/constants/constants.dart';
 
-import 'package:image/image.dart' as img;
+
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
 
+import '../../../../core/utils/convertImageToUin8List.dart';
+import '../../../../core/utils/customDropDown.dart';
 import '../../../face_detection/presentation/riverpod/face_detection_provider.dart';
 import '../../../live_feed/presentation/views/live_feed_training_screen.dart';
 import '../../../train_face/presentation/riverpod/train_face_provider.dart';
@@ -55,8 +61,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   String? semester;
   final String fileName = 'Total Students';
    List<dynamic> embeddings = [];
+
   late Uint8List image;
-  // Uint8List? image;
+
 
 
   final List<String> sessionList = [
@@ -86,6 +93,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     super.initState();
     // Initialize original data with values passed through the constructor
 
+
     name = widget.originalName;
     rollNumber = widget.originalRollNumber;
     session = widget.originalSession;
@@ -94,16 +102,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     rollEditingController.text = widget.originalRollNumber;
     image = Uint8List.fromList(widget.uint8list);
   }
-  Uint8List convertImageToUint8List(img.Image image) {
-    // Encode the image to PNG format
-    final List<int> pngBytes = img.encodePng(image);
 
-    // Convert the List<int> to Uint8List
-    final Uint8List uint8List = Uint8List.fromList(pngBytes);
-    // print('The uint8List is $uint8List');
-
-    return uint8List;
-  }
 
   void showDeleteDialog(BuildContext context,ProfileNotifier profileController) {
     showDialog(
@@ -119,12 +118,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           TextButton(
             onPressed: () async {
               // Call the delete function
-              // await ref.read(deleteExamProvider.notifier).deleteExam(courseId, examId);
               await profileController.deleteStudent(rollNumber, context);
 
               Navigator.of(context).pop(); // Close the dialog
 
-              // await ref.refresh(examsProvider(widget.courseId).notifier).getExams(widget.courseId);
 
             },
             child: const Text('Delete'),
@@ -141,10 +138,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         detectController,
         trainController,
         profileController,
-        // personName,
-        // rollNumber,
-        // session,
-        // semester,
+
       }) async {
     if (formKey.currentState!.validate()) {
       //detect face and train the mobilefacenet model
@@ -234,9 +228,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Uint8List? image;
-    // Uint8List imageData = Uint8List.fromList(widget.uint8list);
-    // Uint8List imageData = image ?? Uint8List.fromList(widget.uint8list);
+
     Uint8List imageData = image;
     final editController = ref.watch(editProvider.notifier);
     ProfileNotifier profileController = ref.watch(profileProvider.notifier);
@@ -252,12 +244,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
       // Check if the name is modified
       if (nameEditingController.text.trim() != widget.originalName.trim()) {
-        updatedData['name'] = nameEditingController.text;
+        updatedData['name'] = nameEditingController.text.trim();
       }
 
       // Check if the roll number is modified
       if (rollEditingController.text.trim() != widget.originalRollNumber.trim()) {
-        updatedData['roll_number'] = rollEditingController.text;
+        updatedData['roll_number'] = rollEditingController.text.trim();
       }
 
       // Check if session or semester is modified
@@ -277,56 +269,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
       // Call the update function only if there are changes
       if (updatedData.isNotEmpty) {
-        // print(updatedData);
-        // print(updatedData['face_embeddings']);
         profileController.updateStudent(rollNumber,  updatedData, context);
+      }else{
+        editController.resetEditing();
+        Fluttertoast.showToast(msg: 'No changes are made.');
+        Navigator.pop(context);
+        Navigator.pop(context);
       }
     }
 
+    void resetValues(){
+      setState(() {
+        image = Uint8List.fromList(widget.uint8list);  // Revert back to the original image
+        embeddings = [];  // Clear embeddings
+        nameEditingController.text = widget.originalName;  // Reset name field
+        rollEditingController.text = widget.originalRollNumber;  // Reset roll number field
+        session = widget.originalSession;  // Reset session
+        semester = widget.originalSemester;  // Reset semester
+      });
+    }
+
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final screenHeight = mediaQuery.size.height;
 
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                ColorConst.backgroundColor,
-                Color.fromARGB(92, 95, 167, 231),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
+        title:const  Text(
+          'Profile',
+          style: TextStyle(fontWeight: FontWeight.bold,),
         ),
         actions: [
-          // IconButton(
-          //   icon: Icon(isEditing ? Icons.close : Icons.edit, color: Colors.white),
-          //   onPressed: () {
-          //     editController.toggleEditing();
-          //   },
-          // ),
+
           IconButton(
-            icon: Icon(isEditing ? Icons.close : Icons.edit, color: Colors.white),
+            icon: Icon(isEditing ? Icons.close : Icons.edit, color: Colors.black),
             onPressed: () {
               if (isEditing) {
                 // If in editing mode, execute the cancel functionality to revert changes
-                setState(() {
-                  image = Uint8List.fromList(widget.uint8list);  // Revert back to the original image
-                  embeddings = [];  // Clear embeddings
-                  nameEditingController.text = widget.originalName;  // Reset name field
-                  rollEditingController.text = widget.originalRollNumber;  // Reset roll number field
-                  session = widget.originalSession;  // Reset session
-                  semester = widget.originalSemester;  // Reset semester
-                });
+                resetValues();
 
                 // Reset the editing state
                 editController.resetEditing();
@@ -338,7 +319,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
 
           IconButton(
-            icon: const Icon(Icons.delete , color: Colors.white),
+            icon: const Icon(Icons.delete , color: Colors.black),
             onPressed: () {
               showDeleteDialog(context, profileController);
 
@@ -347,146 +328,196 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          const BackgroundContainer(),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                GestureDetector(
-                  onLongPress: () {
-                    (isEditing)? showModalBottomSheet(
-                      context: context,
-                      builder: (context) => Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            leading: Icon(Icons.camera_alt),
-                            title: Text('Capture'),
-                            onTap: () {
-                              captureAndTrainImage(
-                                  context: context,
-                                  detectController: detectController,
-                                  trainController: trainController,
-                                  profileController: profileController
-                              );
 
-                              //
-                            },
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.photo_library),
-                            title: Text('Gallery'),
-                            onTap: () {
-                              // Navigator.pop(context);
-                              trainFromGallery(
-                                formKey: _formKey,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(screenHeight * 0.018),
+          child: Column(
+            children: [
+              SizedBox(height: screenHeight * 0.05,),
+              GestureDetector(
+                onTap: () {
+                  (isEditing)? showModalBottomSheet(
+                    context: context,
+                    builder: (context) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.camera_alt),
+                          title: Text('Capture'),
+                          onTap: () {
+                            captureAndTrainImage(
+                                context: context,
                                 detectController: detectController,
                                 trainController: trainController,
-                                profileController: profileController,
-                              );
-                              // Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      ),
-                    ): null;
-                  },
+                                profileController: profileController
+                            );
 
-                  child: SizedBox(
-                    ///container
-                    width: 112,
-                    height: 112,
-                    // margin: const EdgeInsets.all(8.0),
-                    child: Image.memory(
-                      imageData,
-                      width: 112.0,
-                      height: 112.0,
-                      // fit: BoxFit.cover,
+                            //
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.photo_library),
+                          title: Text('Gallery'),
+                          onTap: () {
+                            // Navigator.pop(context);
+                            trainFromGallery(
+                              formKey: _formKey,
+                              detectController: detectController,
+                              trainController: trainController,
+                              profileController: profileController,
+                            );
+                            // Navigator.pop(context);
+                          },
+                        ),
+                      ],
                     ),
+                  ): null;
+                },
+
+                  child:  GestureDetector(
+                    onTap: () {
+                      (isEditing)? showModalBottomSheet(
+                        context: context,
+                        builder: (context) => Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              leading: Icon(Icons.camera_alt),
+                              title: Text('Capture'),
+                              onTap: () {
+                                captureAndTrainImage(
+                                    context: context,
+                                    detectController: detectController,
+                                    trainController: trainController,
+                                    profileController: profileController
+                                );
+
+                                //
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.photo_library),
+                              title: Text('Gallery'),
+                              onTap: () {
+                                // Navigator.pop(context);
+                                trainFromGallery(
+                                  formKey: _formKey,
+                                  detectController: detectController,
+                                  trainController: trainController,
+                                  profileController: profileController,
+                                );
+                                // Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      ): null;
+                    },
+                    child: SizedBox(
+                      height: 112,
+                      width: 112,
+                      child: CircleAvatar(
+                        radius: 100, // Controls the size of the avatar
+                        // backgroundColor: Colors.white, // White space around the image
+                        backgroundColor: Colors.black, // Black space around the image
+                        child: ClipOval(
+                          child: SizedBox(
+                            width: 120, // The actual width of your image
+                            height: 120, // The actual height of your image
+                            child: Image.memory(
+                              image,
+                              fit: BoxFit.contain, // Ensures the image is not stretched
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+
+              ),
+              SizedBox(height: screenHeight * 0.057,),
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.05,
+                    vertical: screenHeight * 0.02,
                   ),
-                ),
-                Form(
-                  key: _formKey,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05,
-                      vertical: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    child: Column(
-                      children: [
-                        buildTextFormField(
-                          hintText: 'Name',
-                          controller: nameEditingController,
-                          onChanged: (value) => nameEditingController.text = value.trim(),
-                          validator: (value) => value == null || value.isEmpty
-                              ? 'Please enter your name'
-                              : null,
+                  child: Column(
+                    children: [
+
+                      customTextFormField(
+                        hintText: 'Name',
+                        controller: nameEditingController,
+                        onChanged: (value) => nameEditingController.text = value,
+                          validator: Validator.personNameValidator,
+                          height:  screenHeight,
                           enabled: isEditing,
-                        ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                        buildTextFormField(
+                      ),
+
+                      SizedBox(height: screenHeight * 0.06),
+
+                      customTextFormField(
                           hintText: 'Roll Number',
-                          controller: rollEditingController,
                           keyboardType: TextInputType.number,
-                          // onChanged: (value) => rollNumber = value.trim(),
-                          onChanged: (value) => rollEditingController.text = value.trim(),
-                          validator: (value) => value == null || value.isEmpty
-                              ? 'Please enter your roll number'
-                              : null,
-                          enabled: isEditing,
-                        ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                        _buildCustomDropDown(
+                          controller: rollEditingController,
+                          onChanged: (value) => rollEditingController.text = value,
+                          validator: Validator.rollNumberValidator,
+                          height: screenHeight,
+                      enabled: isEditing
+                      ),
+                      SizedBox(height: screenHeight * 0.06),
+
+                      customDropDown(
                           itemList: sessionList,
                           hintText: 'Session',
                           value: session,
+                          validator: Validator.sessionValidator,
+                          height: screenHeight,
                           onChanged: isEditing
                               ? (value) {
-                            session = value;
-                          }
-                              : null,
-                        ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                        buildSemesterDropDown(
-                          itemList: semesterList,
-                          value: semester,
-                          onChanged: isEditing ? (input) {
-                            semester = input;
+                            setState(() {
+                              session = value;
+                            });
+                            // session = value;
                           } : null,
-                        ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                        if (isEditing)
-                          buildButtonRow(
-                            context,
-                            //     () {
-                            //       // Cancel editing and revert to original data
-                            //       setState(() {
-                            //         image = Uint8List.fromList(widget.uint8list); // Revert back to the original image
-                            //         embeddings = [];  // Clear embeddings
-                            //         nameEditingController.text = widget.originalName;  // Reset name field
-                            //         rollEditingController.text = widget.originalRollNumber;  // Reset roll number field
-                            //         session = widget.originalSession;  // Reset session
-                            //         semester = widget.originalSemester;  // Reset semester
-                            //       });
-                            //
-                            //   editController.resetEditing();
-                            // },
-                            profileController,
-                              (){
-                                if (_formKey.currentState!.validate()) {
-                                  saveProfile(profileController);
-                                }
+                      ),
+                      SizedBox(height: screenHeight * 0.06),
+
+
+                      customDropDown(
+                        itemList: semesterList,
+                        value: semester,
+                        validator: Validator.semesterValidator,
+                        height: screenHeight,
+                        hintText: 'Semester',
+                        onChanged: isEditing ? (input) {
+                          setState(() {
+                            semester = input;
+                          });
+                          // semester = input;
+                        } : null,
+                      ),
+                      SizedBox(height: screenHeight * 0.06),
+                      if (isEditing)
+                        CustomButton(
+                            screenHeight: screenHeight,
+                            buttonName: 'Update',
+                            onpressed:     (){
+                              if (_formKey.currentState!.validate()) {
+                                saveProfile(profileController);
                               }
-                          )
-                      ],
-                    ),
+                            },
+                            icon: const Icon(Icons.update),),
+
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -498,126 +529,85 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     TextInputType keyboardType = TextInputType.text,
     required bool enabled,
     required TextEditingController controller,
+    required double height,
 
   }) {
     return TextFormField(
       controller: controller,
       enabled: enabled,
       decoration: InputDecoration(
+        // labelText: labelText,
         hintText: hintText,
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(80.0),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(80.0),
-          borderSide: const BorderSide(
-            color: Colors.black,
-            width: 2.0,
-          ),
-        ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(80.0),
           borderSide: const BorderSide(
             color: Color(0xFF0cdec1),
+            // Colors.blue,
             width: 2.0,
           ),
+          borderRadius: BorderRadius.circular(height * 0.023),
         ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(800.0),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 2.0,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.black.withOpacity(0.2),
+            width: 1.0,
           ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(80.0),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 2.0,
-          ),
+          borderRadius: BorderRadius.circular(height * 0.023),
         ),
       ),
+      // decoration: InputDecoration(
+      //   hintText: hintText,
+      //   filled: true,
+      //   fillColor: Colors.white,
+      //   border: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(80.0),
+      //     borderSide: BorderSide.none,
+      //   ),
+      //   enabledBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(80.0),
+      //     borderSide: const BorderSide(
+      //       color: Colors.black,
+      //       width: 2.0,
+      //     ),
+      //   ),
+      //   focusedBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(80.0),
+      //     borderSide: const BorderSide(
+      //       color: Color(0xFF0cdec1),
+      //       width: 2.0,
+      //     ),
+      //   ),
+      //   errorBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(800.0),
+      //     borderSide: const BorderSide(
+      //       color: Colors.red,
+      //       width: 2.0,
+      //     ),
+      //   ),
+      //   focusedErrorBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(80.0),
+      //     borderSide: const BorderSide(
+      //       color: Colors.red,
+      //       width: 2.0,
+      //     ),
+      //   ),
+      // ),
       keyboardType: keyboardType,
       onChanged: onChanged,
       validator: validator,
     );
   }
 
-  Widget _buildCustomDropDown({
-    required List<String> itemList,
-    required String hintText,
-    required String? value,
-    required void Function(String?)? onChanged,
-  }) {
-    return DropdownButtonFormField<String>(
-      value: value,
-      icon: const Icon(Icons.arrow_drop_down),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        hintText: hintText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(80.0),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(800.0),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 2.0,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(80.0),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 2.0,
-          ),
-        ),
-      ),
-      items: itemList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: onChanged,
-      validator: (value) => value == null ? 'Please select your $hintText' : null,
-    );
-  }
-
-  Widget buildSemesterDropDown({
-    required List<String> itemList,
-    required String? value,
-    required void Function(String?)? onChanged,
-  }) {
-    return _buildCustomDropDown(
-      itemList: itemList,
-      hintText: 'Semester',
-      value: value,
-      onChanged: onChanged,
-    );
-  }
 
   Widget buildButtonRow(
       BuildContext context,
       // VoidCallback onCancelPressed,
       ProfileNotifier profileController,
       VoidCallback onSavePressed,
-      // double screenHeight,
-      // bool isEditing,
+
       ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // ElevatedButton(
-        //   onPressed: onCancelPressed,
-        //   child: Text('Cancel'),
-        // ),
         ElevatedButton(
           onPressed: onSavePressed,
           child: Text('Save'),
