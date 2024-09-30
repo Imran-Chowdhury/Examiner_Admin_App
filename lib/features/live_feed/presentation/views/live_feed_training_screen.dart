@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 
 class CameraCaptureScreen extends ConsumerStatefulWidget {
 
-  CameraCaptureScreen({Key? key,  required this.cameras,}) : super(key: key);
+  CameraCaptureScreen({super.key,  required this.cameras,});
   late List<CameraDescription> cameras;
   @override
 
@@ -59,11 +59,7 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
       setState(() {
         capturedImages.add(capturedImage);
       });
-      // if (capturedImages.length == 5) {
-      // if (capturedImages.length == 10) {
-      //   // If 5 images are captured, navigate back to the home screen
-      //   Navigator.pop(context, capturedImages);
-      // }
+
       Navigator.pop(context, capturedImages);
     } catch (e) {
       print('Error capturing image: $e');
@@ -94,7 +90,7 @@ class _CameraCaptureScreenState extends ConsumerState<CameraCaptureScreen> {
            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: captureImage,
-              // child: Text('Capture Image (${capturedImages.length}/5)'),
+
               child: Text('Capture Image (${capturedImages.length}/1)'),
             ),
           ],

@@ -65,7 +65,7 @@ class RestClient{
         'Content-Type': 'application/json',
         // Add token if required
       },
-      // body: jsonEncode(studentData),
+
     );
 
     if (response.statusCode == 200) {
@@ -88,7 +88,7 @@ class RestClient{
         'Content-Type': 'application/json',
         // Add token if required
       },
-      // body: jsonEncode(studentData),
+
     );
 
     if (response.statusCode == 200) {
@@ -112,7 +112,7 @@ class RestClient{
         'Content-Type': 'application/json',
         // Add token if required
       },
-      // body: jsonEncode(studentData),
+
     );
 
     if (response.statusCode == 200) {

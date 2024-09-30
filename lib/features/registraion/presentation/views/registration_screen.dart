@@ -16,7 +16,7 @@ import '../../../../core/utils/customDropDown.dart';
 import '../../../../core/utils/customTextFormField.dart';
 import '../../../face_detection/presentation/riverpod/face_detection_provider.dart';
 import '../../../live_feed/presentation/views/live_feed_training_screen.dart';
-import '../../../recognize_face/presentation/riverpod/recognize_face_provider.dart';
+
 import '../../../train_face/presentation/riverpod/train_face_provider.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
 
@@ -25,7 +25,7 @@ import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
 
 
 class RegistrationScreen extends ConsumerStatefulWidget {
-  RegistrationScreen({required this.faceDetector, required this.interpreter, required this.cameras});
+  const RegistrationScreen({super.key, required this.faceDetector, required this.interpreter, required this.cameras});
 
   final FaceDetector faceDetector;
   final tf_lite.Interpreter interpreter;
@@ -73,24 +73,15 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   late ByteData imageData;
   late Uint8List bytes;
 
-  // Future<void> loadVector()async{
-  //   ByteData imageData = await rootBundle.load('assets/face_main.jpg');
-  //   bytes = imageData.buffer.asUint8List();
-  // }
   @override
   void initState() {
     super.initState();
-    // If you need to do any initialization with faceDetector, interpreter, or cameras, do it here.
-    // loadVector();
   }
 
   @override
   Widget build(BuildContext context) {
     final detectController = ref.watch(faceDetectionProvider('family').notifier);
     final trainController = ref.watch(trainFaceProvider('family').notifier);
-    final detectState = ref.watch(faceDetectionProvider('family'));
-
-    final recognizeState = ref.watch(recognizefaceProvider('family'));
     final registerController = ref.watch(registrationProvider.notifier);
 
     final mediaQuery = MediaQuery.of(context);
@@ -117,21 +108,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             children: [
 
               SizedBox(height: screenHeight * 0.05,),
-              // Text(
-              //   'Register',
-              //   style: TextStyle(
-              //     color: Colors.black,
-              //     fontSize: 24,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
+
 
               (image!=null)? Center(
                 child: SizedBox(
 
                   width: 112,
                   height: 112,
-                  // margin: const EdgeInsets.all(8.0),
+
                   child: GestureDetector(
                     onTap: (){
                       showModalBottomSheet(
@@ -140,8 +124,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ListTile(
-                              leading: Icon(Icons.camera_alt),
-                              title: Text('Capture'),
+                              leading: const Icon(Icons.camera_alt),
+                              title: const Text('Capture'),
                               onTap: () {
                                 captureAndTrainImage(
                                     formKey: _formKey,
@@ -158,8 +142,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
                             ),
                             ListTile(
-                              leading: Icon(Icons.photo_library),
-                              title: Text('Gallery'),
+                              leading: const Icon(Icons.photo_library),
+                              title: const Text('Gallery'),
                               onTap: () {
                                 // Navigator.pop(context);
                                 trainFromGallery(
@@ -182,7 +166,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
                     child: CircleAvatar(
                       radius: 100.0, // Controls the size of the avatar
-                      // backgroundColor: Colors.white, // White space around the image
+
                       backgroundColor: Colors.black, // Black space around the image
                       child: ClipOval(
                         child: SizedBox(
@@ -194,9 +178,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           ),
                         ),
                       ),
-                    )
-
-
+                    ),
                   ),
                 ),
               ):  Center(
@@ -226,8 +208,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
                           ),
                           ListTile(
-                            leading: Icon(Icons.photo_library),
-                            title: Text('Gallery'),
+                            leading: const Icon(Icons.photo_library),
+                            title: const Text('Gallery'),
                             onTap: () {
                               // Navigator.pop(context);
                               trainFromGallery(
@@ -240,7 +222,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 session: session,
                                 rollNumber: rollNumber,
                               );
-                              // Navigator.pop(context);
                             },
                           ),
                         ],
@@ -324,12 +305,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           color: Colors.white,),
 
                           onpressed: () {
+
+
                           if (_formKey.currentState!.validate()&&embeddings.isNotEmpty && imageToSave!=null) {
-                            // if(embeddings.isNotEmpty && imageToSave!=null){
                             registerController.createStudent( embeddings, imageToSave!, name,
                                 rollNumber,  session!, semester!,context);
-                            // }
                           }
+
+
                           if(embeddings.isEmpty){
                             Fluttertoast.showToast(
                               msg: 'Image not selected', // Show the first error message
@@ -337,7 +320,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                             );
                           }
                         },
-
                         ),
                       ),
                     ],
@@ -363,7 +345,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         session,
         semester,
       }) async {
-    // if (formKey.currentState!.validate()) {
+
       //detect face and train the mobilefacenet model
       await detectController
           .detectFacesFromImages(widget.faceDetector, 'Train from gallery')
@@ -382,23 +364,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             image = convertImageToUint8List(imgList[0]);
           });
         }
-
-       // registerController.createStudent( embedding, imgList[0], personName,
-       //      rollNumber,  session, semester,context);
-
-
-
-
         stopwatch.stop();
         final double elapsedSeconds = stopwatch.elapsedMilliseconds / 1000.0;
         print('Detection and Training Execution Time: $elapsedSeconds seconds');
         Navigator.pop(context);
       });
-    // } else {
-    //   // Validation failed
-    //   // Fluttertoast.showToast(msg: 'Failed to add $personName !');
-    //   print('Validation failed');
-    // }
   }
 
 
@@ -413,7 +383,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         session,
         semester,
         fileName}) async {
-    // if (formKey.currentState!.validate()) {
+
 
     final List<XFile>? capturedImages = await Navigator.push(
       context,
@@ -431,11 +401,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         final stopwatch = Stopwatch()..start();
 
 
-        //
-        // List<dynamic> embedding =  await trainController.pickImagesAndTrain(
-        //     personName,rollNumber, session, semester, widget.interpreter, imgList, fileName);
-
-
         List<dynamic> embedding =  await trainController.pickImagesAndTrain(widget.interpreter, imgList,);
         if(embedding.isNotEmpty){
           setState(() {
@@ -446,10 +411,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             image = convertImageToUint8List(imgList[0]);
           });
         }
-
-        // registerController.createStudent( embedding, imgList[0], personName,
-        //     rollNumber,  session, semester,context);
-
 
         stopwatch.stop();
         final double elapsedSeconds = stopwatch.elapsedMilliseconds / 1000.0;

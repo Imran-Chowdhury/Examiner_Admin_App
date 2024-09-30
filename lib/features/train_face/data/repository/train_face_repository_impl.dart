@@ -1,34 +1,23 @@
-// import 'package:face/features/train_face/data/data_source/registration_data_source.dart';
-// import 'package:face/features/train_face/data/data_source/registration_data_source_impl.dart';
-// import 'package:face/features/train_face/domain/train_face_repository.dart';
 
-import 'dart:convert';
 
-import 'dart:typed_data';
-import 'package:http/http.dart' as http;
-import 'package:image/image.dart' as img;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 import '../../../../core/utils/image_to_float32.dart';
 import '../../domain/train_face_repository.dart';
-import '../data_source/train_face_data_source.dart';
-import '../data_source/train_face_data_source_impl.dart';
 
 
 
-final trainFaceRepositoryProvider = Provider((ref) =>
-    TrainFaceRepositoryImpl(dataSource: ref.read(trainFaceDataSourceProvider)));
+
+final trainFaceRepositoryProvider = Provider((ref) => TrainFaceRepositoryImpl());
+
 
 class TrainFaceRepositoryImpl implements TrainFaceRepository {
-  TrainFaceRepositoryImpl({required this.dataSource});
+  // TrainFaceRepositoryImpl({required this.dataSource});
 
-  TrainFaceDataSource dataSource;
 
   @override
-
-  // Future<List<dynamic>> getOutputList(String name, String rollNumber, String session, String semester, List trainings,
-  //     Interpreter interpreter, String nameOfJsonFile) async {
   Future<List<dynamic>> getOutputList(List trainings,
       Interpreter interpreter,) async {
     final inputShape = interpreter.getInputTensor(0).shape;
@@ -43,7 +32,7 @@ class TrainFaceRepositoryImpl implements TrainFaceRepository {
 
     try {
       for (int i = 0; i < trainings.length; i++) {
-        print(trainings.length);
+        // print(trainings.length);
         List input = [];
 
         // input = imageToByteListFloat32(112, 127.5, 127.5, trainings[i]);
@@ -73,13 +62,9 @@ class TrainFaceRepositoryImpl implements TrainFaceRepository {
         // var e = List.from(outputs[i].reshape([192]));
         var e = List.from(outputs[i].reshape([outputShapeLength]));
         finalOutputList.add(e);
-        print('The output to be saved in the database is${finalOutputList}');
+        // print('The output to be saved in the database is${finalOutputList}');
       }
       return finalOutputList;
-     // return await dataSource.createStudent(finalOutputList, trainings[0], name,  rollNumber,  session,  semester,);// sending the first image of the list
-
-      // await dataSource.saveOrUpdateJsonInSharedPreferences(
-      //     name, finalOutputList, nameOfJsonFile);
     } catch (e) {
       rethrow;
     }

@@ -1,9 +1,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../constants/constants.dart';
-
-import 'package:flutter/material.dart';
 
 
 
@@ -12,14 +9,12 @@ class CustomButton extends StatelessWidget {
     super.key,
     required this.screenHeight,
     required this.buttonName,
-    // required this.color,
     required this.onpressed,
     required this.icon,
   });
 
   final double screenHeight;
   final String buttonName;
-  // final Color color;
   Icon icon;
   final void Function()?  onpressed;
 

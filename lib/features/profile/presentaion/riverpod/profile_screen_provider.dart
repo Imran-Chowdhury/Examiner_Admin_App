@@ -4,7 +4,7 @@ import 'package:face_roll_student/features/search/presentaion/riverpod/search_sc
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image/image.dart' as img;
+
 import '../../domain/profile_repository.dart';
 
 
@@ -69,7 +69,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
 
     Map<String, dynamic> responseMap = await repository.updateStudent(rollNumber,studentData);
-    print(('The response map is $responseMap'));
+    // print(('The response map is $responseMap'));
 
     if (responseMap.containsKey('error') ) {
       // This is likely an error response

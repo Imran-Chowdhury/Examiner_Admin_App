@@ -36,22 +36,4 @@ class Validator{
     return null;
   }
 
-  // static String? profileSemesterValidator(String? value){
-  //
-  //   if (value == null || value.isEmpty) {
-  //     return 'Please select your semester!';
-  //   }
-  //   return null;
-  // }
-  //
-  //
-  // static String? profileSessionValidator(String? value){
-  //
-  //   if (value == null || value.isEmpty) {
-  //     return 'Please select your session!';
-  //   }
-  //   return null;
-  // }
-
-
 }

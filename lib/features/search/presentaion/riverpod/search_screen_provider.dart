@@ -35,7 +35,7 @@ class SearchNotifier extends StateNotifier<SearchStudentState> {
       state = SearchStudentSuccessState(
         data: [res]
       );
-      print(res);
+      // print(res);
 
     }
   }

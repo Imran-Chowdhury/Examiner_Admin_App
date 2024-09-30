@@ -3,7 +3,6 @@
 
 
 import 'package:dartz/dartz.dart';
-import 'package:face_roll_student/core/network/rest_client.dart';
 import 'package:face_roll_student/features/search/data/data_source/search_data_source.dart';
 import 'package:face_roll_student/features/search/data/data_source/search_data_source_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

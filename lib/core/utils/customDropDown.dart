@@ -39,6 +39,5 @@ Widget customDropDown({
     }).toList(),
     onChanged: onChanged,
     validator: validator,
-        // (value) => value == null ? 'Please select your $hintText' : null,
   );
 }

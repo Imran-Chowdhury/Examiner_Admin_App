@@ -1,16 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image/image.dart' as img;
+
 import 'package:tflite_flutter/tflite_flutter.dart';
 import '../../../../core/base_state/base_state.dart';
 import '../../domain/train_face_use_case.dart';
 
-// final trainFaceProvider = StateNotifierProvider<TrainFaceNotifier, BaseState>(
-//   (ref) {
-//     return TrainFaceNotifier(
-//         ref: ref, useCase: ref.read(trainFaceUseCaseProvider));
-//   },
-// );
+
 
 final trainFaceProvider = StateNotifierProvider.family(
   (ref, family) {
@@ -39,7 +34,7 @@ class TrainFaceNotifier extends StateNotifier<BaseState> {
 
       // Check if images are selected
       if (resizedImageList.isEmpty) {
-        print('An error occurred from trainProvider');
+        // print('An error occurred from trainProvider');
         state = const ErrorState('No Face Detected');
         Fluttertoast.showToast(
           msg: 'No Face Detected. Try again!', // Show the first error message
@@ -62,7 +57,7 @@ class TrainFaceNotifier extends StateNotifier<BaseState> {
       }
     } catch (e) {
       // Handle any errors that occur
-      print('An error occurred: $e');
+      // print('An error occurred: $e');
       state = ErrorState(e.toString());
 
       // Rethrow the error for further handling

@@ -1,8 +1,6 @@
 
 import 'package:camera/camera.dart';
 import 'package:face_roll_student/core/base_state/search_student_state.dart';
-import 'package:face_roll_student/core/utils/background_widget.dart';
-import 'package:face_roll_student/core/utils/customButton.dart';
 import 'package:face_roll_student/core/utils/customTextFormField.dart';
 import 'package:face_roll_student/core/utils/nameCard.dart';
 import 'package:face_roll_student/core/utils/validators/validators.dart';
@@ -16,7 +14,7 @@ import '../../../profile/presentaion/views/profile_screen.dart';
 
 
 class SearchStudent extends ConsumerStatefulWidget {
-  SearchStudent({
+  const SearchStudent({super.key,
     required this.faceDetector,
     required this.interpreter,
     required this.cameras,
@@ -235,25 +233,6 @@ class _SearchStudentState extends ConsumerState<SearchStudent> {
             ],
           ),
 
-            // Align(
-            //   alignment: Alignment.bottomCenter,
-            //   child: Padding(
-            //     padding: EdgeInsets.only(left:screenHeight * 0.06,right: screenHeight * 0.06 ),
-            //     child: CustomButton(
-            //       screenHeight: screenHeight,
-            //       buttonName: 'Search',
-            //       onpressed: () {
-            //         search(searchController);
-            //
-            //       },
-            //       icon: Icon(
-            //         Icons.search_sharp,
-            //         size: 30,
-            //         weight: screenWidth*2,
-            //         color: Colors.white,),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -264,7 +243,7 @@ class _SearchStudentState extends ConsumerState<SearchStudent> {
       final rollNumber = rollEditingController.text.trim();
       if (rollNumber.isNotEmpty) {
         searchController.getAStudent(rollNumber);
-        print('Searching for student with roll number: $rollNumber');
+        // print('Searching for student with roll number: $rollNumber');
       } else {
         Fluttertoast.showToast(msg: 'Please enter a roll number');
       }
@@ -272,7 +251,7 @@ class _SearchStudentState extends ConsumerState<SearchStudent> {
       final semester = semesterEditingController.text.trim();
       if (semester.isNotEmpty) {
         searchController.getStudentBySemester(semester);
-        print('Searching for students in semester: $semester');
+        // print('Searching for students in semester: $semester');
       } else {
         Fluttertoast.showToast(msg: 'Please enter a semester');
       }

@@ -24,8 +24,8 @@ class FaceDetectionRepositoryImpl implements FaceDetectionRepository {
         final List<Face> faces = await faceDetector.processImage(inputImage);
 
         if (faces.isEmpty) {
-          // implement the logic to remove the picture where no faces are detected
-          print('No face detected');
+
+          // print('No face detected');
           return [];
         } else {
           //adding the first face found in the inputImage into a list
@@ -112,8 +112,6 @@ class FaceDetectionRepositoryImpl implements FaceDetectionRepository {
 
         final img.Image croppedImg =
             img.copyCrop(image[i], left, top, width, height);
-        // final img.Image resizedImage = img.copyResize(croppedImg, width: 112, height: 112);
-        // resizedImageList.add(resizedImage);
         croppedImageList.add(croppedImg);
         if (croppedImageList.isEmpty) {
           return [];

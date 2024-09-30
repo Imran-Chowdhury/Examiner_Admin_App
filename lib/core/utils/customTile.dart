@@ -2,30 +2,27 @@
 
 
 import 'package:flutter/material.dart';
-class customTile extends StatelessWidget {
+
+class CustomTile extends StatelessWidget {
   final VoidCallback onPressed;
-  final String buttonName;
+  final String tileName;
   final Icon icon;
   final color;
 
-  const customTile({
-    Key? key,
+  const CustomTile({
+    super.key,
     required this.onPressed,
-    required this.buttonName,
+    required this.tileName,
     required this.icon,
     required this.color
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return
-      // Column(
-      // mainAxisSize: MainAxisSize.min,
-      // children: [
-        GestureDetector(
+    return GestureDetector(
           onTap: onPressed,
           child: Material(
             borderRadius: BorderRadius.circular(20.0),
@@ -41,12 +38,12 @@ class customTile extends StatelessWidget {
               child: Center(  // Centers the column horizontally and vertically
                 child: Column(
                   mainAxisSize: MainAxisSize.min,  // Centers vertically within the Column
-                  // mainAxisAlignment: MainAxisAlignment.center,
+
                   children: [
                    icon,
                     const SizedBox(height: 8), // Add space between icon and text
                     Text(
-                      buttonName,
+                      tileName,
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 12,
@@ -60,9 +57,7 @@ class customTile extends StatelessWidget {
             ),
           ),
         );
-        // const SizedBox(height: 8), // Add space between the button and other widgets
-      // ],
-    // );
+
   }
 }
 

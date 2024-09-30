@@ -33,7 +33,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource{
   @override
   Future<Map<String, dynamic>> createStudent(List embedding, img.Image image, String studentName,
       String rollNumber, String session, String semesterId,) async {
-    // const url = 'http://192.168.0.106:8000/api/Students/'; // Replace with your API URL
+
 
     Uint8List uint8list = convertImageToUint8List(image);
 
@@ -58,7 +58,7 @@ class RegistrationDataSourceImpl implements RegistrationDataSource{
 
     // Convert the List<int> to Uint8List
     final Uint8List uint8List = Uint8List.fromList(pngBytes);
-    print('The uint8List is $uint8List');
+
 
     return uint8List;
   }

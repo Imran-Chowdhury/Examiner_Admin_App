@@ -1,28 +1,31 @@
-import 'package:face_roll_student/core/network/rest_client.dart';
+
 import 'package:face_roll_student/features/profile/domain/profile_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data_source/profile_data_source.dart';
+import '../data_source/profile_data_source_impl.dart';
+
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
-  // final apiService = ApiService();
-  final restClient = ref.read(restClientProvider);
-  return ProfileRepositoryImpl(restClient);
+
+  final dataSource = ref.read(profileDataSourceRepositoryProvider);
+  return ProfileRepositoryImpl(dataSource);
 });
 
 
 class ProfileRepositoryImpl implements ProfileRepository {
-  // final ApiService apiService;
-  final RestClient restClient;
 
-  ProfileRepositoryImpl(this.restClient);
+   ProfileDataSource dataSource;
+
+  ProfileRepositoryImpl(this.dataSource);
 
   @override
   Future<Map<String, dynamic>> deleteStudent(String rollNumber) async{
-   return await restClient.deleteStudent(rollNumber);
+   return await dataSource.deleteStudent(rollNumber);
   }
 
   @override
   Future<Map<String, dynamic>> updateStudent(String rollNumber, Map<String, dynamic> studentData)async {
-    return await restClient.updateStudent(rollNumber, studentData);
+    return await dataSource.updateStudent(rollNumber, studentData);
   }
 
 

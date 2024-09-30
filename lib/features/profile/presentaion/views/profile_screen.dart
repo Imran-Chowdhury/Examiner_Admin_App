@@ -1,23 +1,14 @@
 import 'dart:typed_data';
-// import 'package:image/image.dart' as img;
 import 'package:camera/camera.dart';
-import 'package:face_roll_student/core/utils/background_widget.dart';
 import 'package:face_roll_student/core/utils/customButton.dart';
 import 'package:face_roll_student/core/utils/customTextFormField.dart';
 import 'package:face_roll_student/core/utils/validators/validators.dart';
 import 'package:face_roll_student/features/profile/presentaion/riverpod/profile_screen_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
-
-import '../../../../core/constants/constants.dart';
-
-
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
-
 import '../../../../core/utils/convertImageToUin8List.dart';
 import '../../../../core/utils/customDropDown.dart';
 import '../../../face_detection/presentation/riverpod/face_detection_provider.dart';
@@ -26,7 +17,7 @@ import '../../../train_face/presentation/riverpod/train_face_provider.dart';
 
 
 class ProfileScreen extends ConsumerStatefulWidget {
-  ProfileScreen({required this.faceDetector, required this.interpreter,
+  ProfileScreen({super.key, required this.faceDetector, required this.interpreter,
     required this.cameras, required this.originalName, required this.originalRollNumber,
     required this.originalSemester, required this.originalSession, required this.uint8list});
 
@@ -554,43 +545,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           borderRadius: BorderRadius.circular(height * 0.023),
         ),
       ),
-      // decoration: InputDecoration(
-      //   hintText: hintText,
-      //   filled: true,
-      //   fillColor: Colors.white,
-      //   border: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(80.0),
-      //     borderSide: BorderSide.none,
-      //   ),
-      //   enabledBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(80.0),
-      //     borderSide: const BorderSide(
-      //       color: Colors.black,
-      //       width: 2.0,
-      //     ),
-      //   ),
-      //   focusedBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(80.0),
-      //     borderSide: const BorderSide(
-      //       color: Color(0xFF0cdec1),
-      //       width: 2.0,
-      //     ),
-      //   ),
-      //   errorBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(800.0),
-      //     borderSide: const BorderSide(
-      //       color: Colors.red,
-      //       width: 2.0,
-      //     ),
-      //   ),
-      //   focusedErrorBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(80.0),
-      //     borderSide: const BorderSide(
-      //       color: Colors.red,
-      //       width: 2.0,
-      //     ),
-      //   ),
-      // ),
+
       keyboardType: keyboardType,
       onChanged: onChanged,
       validator: validator,
