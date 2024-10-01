@@ -31,15 +31,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0XFFfcfcfc),
+        scaffoldBackgroundColor: const Color(0XFFfcfcfc),
       ),
-      // theme: ThemeData( scaffoldBackgroundColor: Colors.lightGreenAccent,),
-      home: SafeArea(child: HomeScreen()),
-      // home: SafeArea(child: ProfileScreen()),
-      // home: const SafeArea(child: RegistrationScreen()),
 
-      // home: SafeArea(child: CourseSelectionScreen()),
-      // home: SafeArea(child: SemesterSelectionScreen()),
+      home: const HomeScreen(),
+
     );
   }
 }
