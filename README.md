@@ -61,3 +61,8 @@ The Examiner-Admin app is part of the Examiner project developed for Department 
 
 - **MySQL:**  
   MySQL is a relational database management system used to store structured data such as student information (name, roll number, session, semester) and their associated face embeddings. It serves as the primary storage for the Examiner-Admin app's backend, enabling efficient retrieval and updates of student profiles.
+
+
+
+## References
+- [FaceNet Paper](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Schroff_FaceNet_A_Unified_2015_CVPR_paper.pdf)
