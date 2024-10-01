@@ -1,6 +1,6 @@
 # Examiner-Admin App
 
-The Examiner-Admin app is part of the Examiner project developed for Department of Electrical and Electronic Engineering, University of Chittagong, designed to register students and manage their profiles efficiently using facial recognition technology. This app allows authorities to register students, search for students, and update or delete profiles with face embedding data stored securely in a database.
+The Examiner-Admin app is part of the Examiner project developed for the Department of Electrical and Electronic Engineering, University of Chittagong, designed to register students and manage their profiles efficiently using facial recognition technology. This app allows authorities to register students, search for students, and update or delete profiles with face embedding data stored securely in a database.
 
 ## Features
 
