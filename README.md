@@ -1,16 +1,47 @@
-# face_roll_student
+# Examiner-Admin App
 
-A new Flutter project.
+The Examiner-Admin app is part of the Examiner project, designed to register students and manage their profiles efficiently using facial recognition technology. This app allows authorities to register students, search for students, and update or delete profiles with face embedding data stored securely in a database.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+1. **Student Registration:**
+    - Students can register by providing their name, roll number, session, and semester.
+    - The app captures a facial image, which is pre-processed into face embeddings. These embeddings are stored along with the student’s information in the database.
 
-A few resources to get you started if this is your first Flutter project:
+2. **Student Search:**
+    - Authorities can search for students based on their roll number or semester.
+    - By selecting the semester filter, authorities can retrieve a list of all students in that semester.
+    - For individual student details, they can search using the roll number filter.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3. **Student Profile:**
+    - Each student's profile includes all the registered details and can be updated or deleted.
+    - In case of a profile picture update, the new facial image is processed, and new face embeddings are generated and stored in the database.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+
+- **Home**
+  ![Home](screenshots/home.jpeg)
+
+- **Student Registration**
+  ![Student Registration](screenshots/registration.jpeg)
+
+- **Student Search By Semester**
+  ![Student Search](screenshots/search.jpeg)
+
+- **Student Search By Roll**
+  ![Student Search](screenshots/search_2.jpeg)
+
+- **Student Profile**
+  ![Student Profile](screenshots/profile.jpeg)
+- 
+
+## Technologies Used
+
+- **TensorFlow Lite (FaceNet):**  
+  TensorFlow Lite is a lightweight version of TensorFlow optimized for mobile and embedded devices. It runs the facial recognition model FaceNet, which is used to generate face embeddings by analyzing the student's facial image. These embeddings, which are unique representations of the student's face, are computed locally on the device and then stored in the backend. TensorFlow Lite allows the app to perform facial recognition efficiently on mobile devices without relying on server-side processing.
+
+- **Django:**  
+  Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It is used as the backend server for the Examiner-Admin app. The Django REST framework provides the APIs for managing student information, storing face embeddings, and communicating with the mobile app. Django also handles authentication and permissions, ensuring secure access to student data.
+
+- **MySQL:**  
+  MySQL is a relational database management system used to store structured data such as student information (name, roll number, session, semester) and their associated face embeddings. It serves as the primary storage for the Examiner-Admin app's backend, enabling efficient retrieval and updates of student profiles.
