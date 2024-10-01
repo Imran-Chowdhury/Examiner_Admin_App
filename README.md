@@ -17,22 +17,37 @@ The Examiner-Admin app is part of the Examiner project developed for Department 
     - Each student's profile includes all the registered details and can be updated or deleted.
     - In case of a profile picture update, the new facial image is processed, and new face embeddings are generated and stored in the database.
 
+
 ## Screenshots
 
-- **Home**
-  <img src="screenshots/home.jpeg" alt="Home" width="300" height="500"/>
-
-- **Student Registration**
-  <img src="screenshots/registration.jpeg" alt="Student Registration" width="300" height="500"/>
-
-- **Student Search By Semester**
-  <img src="screenshots/search.jpeg" alt="Student Search By Semester" width="300" height="500"/>
-
-- **Student Search By Roll**
-  <img src="screenshots/search_2.jpeg" alt="Student Search By Roll" width="300" height="500"/>
-
-- **Student Profile**
-  <img src="screenshots/profile.jpeg" alt="Student Profile" width="300" height="500"/>
+<table>
+  <tr>
+    <td style="text-align:center">
+      <img src="screenshots/home.jpeg" alt="Home" width="300" height="500"/>
+      <p style="text-align:center">Home</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/registration.jpeg" alt="Student Registration" width="300" height="500"/>
+      <p style="text-align:center">Student Registration</p>
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align:center">
+      <img src="screenshots/search.jpeg" alt="Student Search By Semester" width="300" height="500"/>
+      <p style="text-align:center">Student Search By Semester</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/search_2.jpeg" alt="Student Search By Roll" width="300" height="500"/>
+      <p style="text-align:center">Student Search By Roll</p>
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align:center">
+      <img src="screenshots/profile.jpeg" alt="Student Profile" width="300" height="500"/>
+      <p style="text-align:center">Student Profile</p>
+    </td>
+  </tr>
+</table>
 
 
 
