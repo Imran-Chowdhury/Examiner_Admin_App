@@ -1,5 +1,5 @@
 
-import 'package:examiner_admin_app/features/registraion/presentation/views/registration_screen.dart';
+
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 import '../../../../core/utils/customTile.dart';
+import '../../../registraion/presentation/views/registration_screen.dart';
 import '../../../search/presentaion/views/search_screen.dart';
 
 
