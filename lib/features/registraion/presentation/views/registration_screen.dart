@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image/image.dart' as img;
 import 'package:camera/camera.dart';
-import 'package:face_roll_student/core/utils/validators/validators.dart';
-import 'package:face_roll_student/features/registraion/presentation/riverpod/registraion_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
@@ -14,11 +12,14 @@ import '../../../../core/utils/convertImageToUin8List.dart';
 import '../../../../core/utils/customButton.dart';
 import '../../../../core/utils/customDropDown.dart';
 import '../../../../core/utils/customTextFormField.dart';
+import '../../../../core/utils/validators/validators.dart';
 import '../../../face_detection/presentation/riverpod/face_detection_provider.dart';
 import '../../../live_feed/presentation/views/live_feed_training_screen.dart';
 
 import '../../../train_face/presentation/riverpod/train_face_provider.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
+
+import '../riverpod/registraion_provider.dart';
 
 
 

@@ -1,16 +1,16 @@
 
 import 'package:camera/camera.dart';
-import 'package:face_roll_student/core/base_state/search_student_state.dart';
-import 'package:face_roll_student/core/utils/customTextFormField.dart';
-import 'package:face_roll_student/core/utils/nameCard.dart';
-import 'package:face_roll_student/core/utils/validators/validators.dart';
-import 'package:face_roll_student/features/search/presentaion/riverpod/search_screen_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
+import '../../../../core/base_state/search_student_state.dart';
+import '../../../../core/utils/customTextFormField.dart';
+import '../../../../core/utils/nameCard.dart';
+import '../../../../core/utils/validators/validators.dart';
 import '../../../profile/presentaion/views/profile_screen.dart';
+import '../riverpod/search_screen_provider.dart';
 
 
 class SearchStudent extends ConsumerStatefulWidget {

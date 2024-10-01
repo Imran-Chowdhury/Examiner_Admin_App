@@ -3,11 +3,12 @@
 
 
 import 'package:dartz/dartz.dart';
-import 'package:face_roll_student/features/search/data/data_source/search_data_source.dart';
-import 'package:face_roll_student/features/search/data/data_source/search_data_source_impl.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/search_repository.dart';
+import '../data_source/search_data_source.dart';
+import '../data_source/search_data_source_impl.dart';
 
 final searchRepositoryProvider = Provider((ref) =>
     SearchRepositoryImpl(dataSource: ref.read(searchRepositoryImplProvider)));

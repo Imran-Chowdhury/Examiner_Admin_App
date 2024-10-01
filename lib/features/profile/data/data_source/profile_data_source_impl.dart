@@ -1,4 +1,5 @@
-import 'package:face_roll_student/features/profile/data/data_source/profile_data_source.dart';
+import 'package:examiner_admin_app/features/profile/data/data_source/profile_data_source.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/network/rest_client.dart';

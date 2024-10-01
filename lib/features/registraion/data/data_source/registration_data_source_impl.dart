@@ -1,16 +1,14 @@
 
 
 
-import 'dart:convert';
 
-
-import 'package:face_roll_student/core/network/rest_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
 
+
+import '../../../../core/network/rest_client.dart';
 import 'registration_data_source.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:image/image.dart' as img;
 import 'dart:typed_data';
 

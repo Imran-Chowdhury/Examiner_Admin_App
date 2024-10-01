@@ -2,7 +2,7 @@
 
 
 
-import 'package:face_roll_student/features/registraion/domain/registration_repository.dart';
+import 'package:examiner_admin_app/features/registraion/domain/registration_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart' as img;
 

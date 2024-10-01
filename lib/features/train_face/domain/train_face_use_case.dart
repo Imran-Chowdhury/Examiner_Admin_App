@@ -1,5 +1,5 @@
 
-import 'package:face_roll_student/features/train_face/domain/train_face_repository.dart';
+import 'package:examiner_admin_app/features/train_face/domain/train_face_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 

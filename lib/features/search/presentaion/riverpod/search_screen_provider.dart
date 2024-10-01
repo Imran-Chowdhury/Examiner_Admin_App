@@ -1,7 +1,9 @@
-import 'package:face_roll_student/core/base_state/search_student_state.dart';
-import 'package:face_roll_student/features/search/domain/search_use_case.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../../../core/base_state/search_student_state.dart';
+import '../../domain/search_use_case.dart';
 
 
 

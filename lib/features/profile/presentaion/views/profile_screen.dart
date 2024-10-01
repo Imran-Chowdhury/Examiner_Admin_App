@@ -1,19 +1,19 @@
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
-import 'package:face_roll_student/core/utils/customButton.dart';
-import 'package:face_roll_student/core/utils/customTextFormField.dart';
-import 'package:face_roll_student/core/utils/validators/validators.dart';
-import 'package:face_roll_student/features/profile/presentaion/riverpod/profile_screen_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
 import '../../../../core/utils/convertImageToUin8List.dart';
+import '../../../../core/utils/customButton.dart';
 import '../../../../core/utils/customDropDown.dart';
+import '../../../../core/utils/customTextFormField.dart';
+import '../../../../core/utils/validators/validators.dart';
 import '../../../face_detection/presentation/riverpod/face_detection_provider.dart';
 import '../../../live_feed/presentation/views/live_feed_training_screen.dart';
 import '../../../train_face/presentation/riverpod/train_face_provider.dart';
+import '../riverpod/profile_screen_provider.dart';
 
 
 class ProfileScreen extends ConsumerStatefulWidget {

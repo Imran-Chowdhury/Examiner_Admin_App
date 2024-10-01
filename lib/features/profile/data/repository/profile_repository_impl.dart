@@ -1,7 +1,7 @@
 
-import 'package:face_roll_student/features/profile/domain/profile_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../domain/profile_repository.dart';
 import '../data_source/profile_data_source.dart';
 import '../data_source/profile_data_source_impl.dart';
 

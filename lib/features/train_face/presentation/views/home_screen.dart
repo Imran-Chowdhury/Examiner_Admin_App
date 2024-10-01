@@ -1,5 +1,5 @@
 
-import 'package:face_roll_student/features/registraion/presentation/views/registration_screen.dart';
+import 'package:examiner_admin_app/features/registraion/presentation/views/registration_screen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tf_lite;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -171,7 +171,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       faceDetector: faceDetector,
                                       interpreter: interpreter,
                                       cameras: cameras,)
-                                ));
+                                ),
+                            );
                           },
                         ),
                         SizedBox(

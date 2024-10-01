@@ -1,10 +1,12 @@
 
 
-import 'package:face_roll_student/features/registraion/domain/registration_use_case.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image/image.dart' as img;
+
+import '../../domain/registration_use_case.dart';
 
 
 // Provider for ProfileNotifier

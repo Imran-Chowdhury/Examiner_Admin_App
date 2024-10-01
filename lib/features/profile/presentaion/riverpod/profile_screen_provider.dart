@@ -1,10 +1,11 @@
-import 'package:face_roll_student/core/base_state/attendance_state.dart';
-import 'package:face_roll_student/features/profile/data/repository/profile_repository_impl.dart';
-import 'package:face_roll_student/features/search/presentaion/riverpod/search_screen_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../../../core/base_state/attendance_state.dart';
+import '../../../search/presentaion/riverpod/search_screen_provider.dart';
+import '../../data/repository/profile_repository_impl.dart';
 import '../../domain/profile_repository.dart';
 
 
